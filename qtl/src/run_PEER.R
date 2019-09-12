@@ -1,5 +1,3 @@
-# Author: Francois Aguet
-
 library(peer, quietly=TRUE)  # https://github.com/PMBio/peer
 library(argparser, quietly=TRUE)
 
@@ -37,6 +35,12 @@ if (grepl('.bed$', argv$expr.file) || grepl('.bed.gz$', argv$expr.file)) {
 } else {
     df <- read.table(argv$expr.file, sep="\t", nrows=nrows, header=TRUE, check.names=FALSE, comment.char="", row.names=1)
 }
+print("before remove NA, dim of expression")
+print(dim(df))
+# remove rows with NA
+df <- df[complete.cases(df),]
+print("after remove NA, dim of expression")
+print(dim(df))
 M <- t(as.matrix(df))
 cat("done.\n")
 
